@@ -7,9 +7,10 @@
 	height: 768px;
 	overflow: hidden;
 	/*background-color: #BDB7DD;*/
-	background-image: -moz-repeating-linear-gradient(45deg, #8CC7C2 0px, #8CC7C2 2px, #E8E13C 2px, #E8E13C 4px);
-	background-image: -webkit-repeating-linear-gradient(45deg, #8CC7C2 0px, #8CC7C2 2px, #E8E13C 2px, #E8E13C 4px);
-
+	background-image: repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
+	/*background-image: -moz-repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
+	background-image: -webkit-repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
+*/
 }
 
 .post {
