@@ -25,15 +25,13 @@ var instaShow = {
 					end: 'media/?size=l'
 				}
 
-				var post = $('#container').append('<div class="post">')
-					.last('.post')
+				$('<div class="post" id="' + i + '">')
+					.addClass('post')
+					.hide()
 		    		.append('<img src="' + implode('/', imgURL) + '" />')
-		    		.append('<p>' + d.data[i].caption.text);
-
-		    	$('#container').append(post);
+		    		.append('<p>' + d.data[i].caption.text)
+		    		.appendTo('#container');
 			}
-
-			$('#container .post:gt(0)').hide()
 			instaShow.animatePics();
 		});
 	},
@@ -54,13 +52,17 @@ var instaShow = {
 
 	animatePics: function(){
 
-		setInterval(function(){ 
+		var range = $('.post').size()
+		var current = 0;
 
-			$('#container :first-child').fadeOut()
-				.next('.post').fadeIn()
-				.end().appendTo('#container')
+		setInterval(function(){
 
-		}, 3000);
+			current = (current == (range - 1))? 0 : current + 1;
+
+			$('div.post').hide();
+			$('div.post#' + current)
+				.fadeIn('slow')
+		}, 8000);
 	}
 }
 
@@ -92,5 +94,9 @@ function implode(glue, pieces) {
 }
 
 $(document).ready(function(){
+	
 	instaShow.makePics();
+	setInterval(function(){
+		instaShow.makePics();
+	}, 3600000);
 });
