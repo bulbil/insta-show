@@ -6,10 +6,12 @@
 	width: 1024px;
 	height: 768px;
 	overflow: hidden;
-	background-image: repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
+	background: url('stripe.png') repeat left top;	
+/*	background-image: repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
 	background-image: -moz-repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
 	background-image: -webkit-repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
 	background-image: -o-repeating-linear-gradient(45deg, #8CC7C2 -5px, #8CC7C2 5px, #E8E13C 5px, #E8E13C 10px);
+*/
 }
 
 .post {
