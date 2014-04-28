@@ -5,6 +5,7 @@ var instaShow = {
 
 	args: {
 			client_id: client_id,
+			init: true
 		},
 
 	url: {
@@ -13,22 +14,15 @@ var instaShow = {
 			end: 'media/recent'
 		},
 
-	makePics: function(range, current){
+	makePics: function(arg, range, current){
 
-		instaShow.getPics().done( function(d){
-
-			console.log(d)
-
-			console.log('range: ' + range);
-			console.log('length: ' + d.data.media_count);
+		instaShow.getPics(arg).done( function(d){
 
 			if (range != d.data.length) {
 
 				$('div.post').remove();
 
 		        for(i in d.data){
-
-		        	console.log(d.data[i])
 
 					imgURL = {
 						base: 'http://instagr.am/p',
@@ -49,7 +43,7 @@ var instaShow = {
 		instaShow.animatePics(range, current);
 	},
 
-	getPics: function(){
+	getPics: function(arg){
 
 		return $.ajax({
 
@@ -108,7 +102,8 @@ $(document).ready(function(){
 		var range = $('.post').size();
 		current = (current == range)? 0 : current + 1;
 
-		instaShow.makePics(range, current);
+		instaShow.makePics(instaShow.args.init, range, current);
+		instaShow.args.init = false;
 	}, 8000);
 
 });
