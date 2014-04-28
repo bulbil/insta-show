@@ -13,29 +13,40 @@ var instaShow = {
 			end: 'media/recent'
 		},
 
-	makePics: function(){
-		
-		$.('div.post').remove();
+	makePics: function(range, current){
 
 		instaShow.getPics().done( function(d){
 
-	        for(i in d.data){
+			console.log(d)
 
-				imgURL = {
-					base: 'http://instagr.am/p',
-					bug: d.data[i].link.slice(-11,-1),
-					end: 'media/?size=l'
+			console.log('range: ' + range);
+			console.log('length: ' + d.data.media_count);
+
+			if (range != d.data.length) {
+
+				$('div.post').remove();
+
+		        for(i in d.data){
+
+		        	console.log(d.data[i])
+
+					imgURL = {
+						base: 'http://instagr.am/p',
+						bug: d.data[i].link.slice(-11,-1),
+						end: 'media/?size=l'
+					}
+
+					$('<div class="post" id="' + i + '">')
+						.addClass('post')
+						.hide()
+			    		.append('<img src="' + implode('/', imgURL) + '" />')
+			    		.append('<p>' + d.data[i].caption.text)
+			    		.appendTo('#container');
 				}
-
-				$('<div class="post" id="' + i + '">')
-					.addClass('post')
-					.hide()
-		    		.append('<img src="' + implode('/', imgURL) + '" />')
-		    		.append('<p>' + d.data[i].caption.text)
-		    		.appendTo('#container');
 			}
-			instaShow.animatePics();
 		});
+
+		instaShow.animatePics(range, current);
 	},
 
 	getPics: function(){
@@ -52,19 +63,12 @@ var instaShow = {
 	    });
 	},
 
-	animatePics: function(){
+	animatePics: function(range, current){
 
-		var range = $('.post').size()
-		var current = 0;
-
-		setInterval(function(){
-
-			current = (current == (range - 1))? 0 : current + 1;
-
-			$('div.post').hide();
-			$('div.post#' + current)
-				.fadeIn('slow')
-		}, 8000);
+		console.log('current: ' + current);
+		$('div.post').hide();
+		$('div.post#' + current)
+			.fadeIn('slow')
 	}
 }
 
@@ -97,8 +101,14 @@ function implode(glue, pieces) {
 
 $(document).ready(function(){
 	
-	instaShow.makePics();
-	setInterval(function(){
-		instaShow.makePics();
-	}, 3600000);
+	var current = 0;
+
+	var initShow = 	setInterval(function(){
+
+		var range = $('.post').size();
+		current = (current == range)? 0 : current + 1;
+
+		instaShow.makePics(range, current);
+	}, 8000);
+
 });
