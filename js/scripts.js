@@ -15,6 +15,8 @@ var instaShow = {
 
 	makePics: function(){
 		
+		$.('div.post').remove();
+
 		instaShow.getPics().done( function(d){
 
 	        for(i in d.data){
