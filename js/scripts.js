@@ -5,7 +5,7 @@ var instaShow = {
 
 	args: {
 			client_id: client_id,
-			init: true
+			count: '',
 		},
 
 	url: {
@@ -14,11 +14,9 @@ var instaShow = {
 			end: 'media/recent'
 		},
 
-	makePics: function(arg, range, current){
+	makePics: function(){
 
-		instaShow.getPics(arg).done( function(d){
-
-			if (range != d.data.length) {
+		instaShow.getPics().done( function(d){
 
 				$('div.post').remove();
 
@@ -37,18 +35,20 @@ var instaShow = {
 			    		.append('<p>' + d.data[i].caption.text)
 			    		.appendTo('#container');
 				}
-			}
 		});
 
-		instaShow.animatePics(range, current);
 	},
 
-	getPics: function(arg){
+	getPics: function(getMediaCountBool){
+
+		var crntURL = (getMediaCountBool == true) ?
+			instaShow.url.base + '/' + instaShow.url.params
+			: implode('/', instaShow.url);
 
 		return $.ajax({
 
 	        type: 'GET',
-	        url: implode('/', instaShow.url),
+	        url: crntURL,
 	        data: instaShow.args,
 	        dataType: 'jsonp',
 	        error: function(e) {
@@ -97,13 +97,22 @@ $(document).ready(function(){
 	
 	var current = 0;
 
-	var initShow = 	setInterval(function(){
+	function initShow(){
 
-		var range = $('.post').size();
-		current = (current == range)? 0 : current + 1;
+		instaShow.getPics(true)
+			.done(function(d){ 
 
-		instaShow.makePics(instaShow.args.init, range, current);
-		instaShow.args.init = false;
-	}, 8000);
+				instaShow.args.count = d.data.media_count - 1;
 
+				var range = $('.post').size() - 1;
+				console.log('range: ' + range)
+
+				if (range != instaShow.args.count){ console.log('show'); instaShow.makePics(); }
+
+				instaShow.animatePics(range, current);
+				current = (range < 0 || current == range)? 0 : ++current;
+		});
+	}
+	initShow();
+	var initInterval = 	setInterval(function(){ initShow(); }, 9000);
 });
